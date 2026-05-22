@@ -4,6 +4,8 @@
 #include "Weapon.h"
 #include "Gadget.h"
 
+
+// Como este main es de prueba, es decir solo tiene como objetivo probar que las clases funcionen, no está completo con todas las 5 fases del juego.
 Tool elegirTool(int opcion, Weapon daga, Weapon pistola, Gadget taser, Gadget polvo){
     if(opcion == 1) return daga;
     if(opcion == 2) return pistola;
