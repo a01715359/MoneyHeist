@@ -3,6 +3,7 @@
 
 #include<iostream>
 #include<string>
+#include <sstream>
 
 #include "Tool.h"
 
@@ -18,6 +19,7 @@ class Weapon: public Tool{
         
         bool getIsRanged();
         bool getCanForceLocks();
+        std::string use() override;
 };
 
 bool Weapon::getIsRanged(){
@@ -26,6 +28,17 @@ bool Weapon::getIsRanged(){
 
 bool Weapon::getCanForceLocks(){
     return canForceLocks;
+}
+
+std::string Weapon::use(){
+    consumeUse(1);
+    std::stringstream ss;
+    ss << uses;
+    if (canForceLocks) {
+        return name + ": forzaste la cerradura. Usos restantes: " + ss.str();
+    } else {
+        return name + ": neutralizaste al guardia. Usos restantes: " + ss.str();
+    }
 }
 
 #endif
