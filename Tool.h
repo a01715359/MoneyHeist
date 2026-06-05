@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <string>
-#include <sstream>
 
 class Tool{
     protected:
@@ -21,7 +20,7 @@ class Tool{
         float getSuspicionCost();
         virtual void consumeUse(int amountUse);
         bool hasUses();
-        virtual std::string use();
+        virtual std::string use() = 0;
 };
 
 std::string Tool::getName() {
@@ -44,11 +43,12 @@ bool Tool::hasUses(){
     return uses > 0;
 }
 
+/*
 std::string Tool::use() {
     consumeUse(1);
     std::stringstream ss;
     ss << uses;
     return name + " usada. Usos restantes: " + ss.str();
 }
-
+*/
 #endif
