@@ -19,7 +19,7 @@ class Weapon: public Tool{
         
         bool getIsRanged();
         bool getCanForceLocks();
-        std::string use() override;
+        std::string use();
 };
 
 bool Weapon::getIsRanged(){
