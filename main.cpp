@@ -4,55 +4,86 @@
 #include "Weapon.h"
 #include "Gadget.h"
 
-
-// Como este main es de prueba, es decir solo tiene como objetivo probar que las clases funcionen, no está completo con todas las 5 fases del juego.
-Tool elegirTool(int opcion, Weapon daga, Weapon pistola, Gadget taser, Gadget polvo){
-    if(opcion == 1) return daga;
-    if(opcion == 2) return pistola;
+/*
+Tool chooseTool(int opcion, Weapon dagger, Weapon gun, Gadget taser, Gadget polvo){
+    if(opcion == 1) return dagger;
+    if(opcion == 2) return gun;
     if(opcion == 3) return taser;
     return polvo;
 }
+*/
 
 int main(){
     // --- INTRODUCCION ---
-    std::string nombreJugador;
-    std::cout << "Rodrigo: Oye, antes de empezar... ¿como te llamas?" << std::endl;
+    std::string player;
+    std::cout << "Mar: Oye, antes de empezar... ¿cómo te llamas?" << std::endl;
     std::cout << "> ";
-    std::cin >> nombreJugador;
-    std::cout << "Rodrigo: Perfecto, " << nombreJugador << ". Ya estamos dentro del sistema." << std::endl;
-    std::cout << "Rodrigo: Elige 2 herramientas antes de entrar." << std::endl;
+    std::cin >> player;
+    std::cout << "Mar: Perfecto, " << player << ". Ya estamos dentro del sistema." << std::endl;
+    std::cout << "Mar: Elige 2 herramientas antes de entrar." << std::endl;
+    
+    Thief ladron(player, 100, 0.0, false);  
 
     // --- SELECCION DE TOOLS ---
-    Weapon daga("Daga", 5, 10.0, false, true);
-    Weapon pistola("Pistola Silenciosa", 3, 2.0, true, false);
-    Gadget taser("Taser Electrico", 2, 5.0, true);
-    Gadget polvo("Polvo Cegador", 1, 0.0, false);
-
-    std::cout << "\n1. Daga (5 usos, 10% sospecha)" << std::endl;
-    std::cout << "2. Pistola Silenciosa (3 usos, 2% sospecha)" << std::endl;
+    std::cout << "\n1. dagger (5 usos, 10% sospecha)" << std::endl;
+    std::cout << "2. gun Silenciosa (3 usos, 2% sospecha)" << std::endl;
     std::cout << "3. Taser Electrico (2 usos, 5% sospecha)" << std::endl;
     std::cout << "4. Polvo Cegador (1 uso, 0% sospecha)" << std::endl;
 
     int tool1, tool2;
     std::cout << "\nElige tu primera herramienta: ";
     std::cin >> tool1;
+    switch(tool1){
+        case 1:
+            ladron.addWeapon("dagger", 5, 10.0, false, true);
+            break;
+        case 2:
+            ladron.addWeapon("silenced gun", 3, 2.0, true, false);
+            break;
+        case 3:
+            ladron.addGadget("electric taser", 2, 5.0, true);
+            break;
+        case 4:
+            ladron.addGadget("blinding powder", 1, 0.0, false);
+            break;
+        default: 
+            std::cout << "Mar: How much time do you think we have left, huh?" << std::endl;
+            std::cout << "Mar: Just choose your tools, and do it fast." << std::endl;
+            std::cout << "Choose between 1 and 4" << std::endl;
+    }
+
     std::cout << "Elige tu segunda herramienta: ";
     std::cin >> tool2;
+    switch(tool2){
+                case 1:
+            ladron.addWeapon("dagger", 5, 10.0, false, true);
+            break;
+        case 2:
+            ladron.addWeapon("silenced gun", 3, 2.0, true, false);
+            break;
+        case 3:
+            ladron.addGadget("electric taser", 2, 5.0, true);
+            break;
+        case 4:
+            ladron.addGadget("blinding powder", 1, 0.0, false);
+            break;
+        default: 
+            std::cout << "Mar: How much time do you think we have left, huh?" << std::endl;
+            std::cout << "Mar: Just choose your tools, and do it fast." << std::endl;
+            std::cout << "Choose between 1 and 4" << std::endl;
+    }
 
-    Thief ladron(nombreJugador, 100, 0.0, false);
 
-    ladron.addToInventory(elegirTool(tool1, daga, pistola, taser, polvo));
-    ladron.addToInventory(elegirTool(tool2, daga, pistola, taser, polvo));
     GameController game(ladron, 1, false);
 
-    std::cout << "\nRodrigo: Listo " << nombreJugador << ", llevas ";
-    std::cout << game.getThief().getInventory()[0].getName() << " y ";
-    std::cout << game.getThief().getInventory()[1].getName() << "." << std::endl;
+    std::cout << "\nMar: Listo " << player << ", llevas ";
+    std::cout << game.getThief().getInventory()[0]->getName() << " y ";
+    std::cout << game.getThief().getInventory()[1]->getName() << "." << std::endl;
 
     // --- FASE 1 ---
     std::cout << "\n=== FASE 1: EL LOBBY ===" << std::endl;
-    std::cout << "Rodrigo: Ya estas dentro, " << nombreJugador << "." << std::endl;
-    std::cout << "Rodrigo: Hay un conserje y un guardia. ¿Que haces?" << std::endl;
+    std::cout << "Mar: Ya estas dentro, " << player << "." << std::endl;
+    std::cout << "Mar: Hay un conserje y un guardia. ¿Que haces?" << std::endl;
     std::cout << "1. Usar herramienta" << std::endl;
     std::cout << "2. Noquear a puños (perderas 20 HP y +40% sospecha, pero obtienes la llave dorada)" << std::endl;
 
@@ -65,7 +96,7 @@ int main(){
     std::cout << "Sospecha: " << game.getThief().getSuspicion() << "%" << std::endl;
 
     if(game.checkGameOver()){
-        std::cout << "\nRodrigo: ¡Te atraparon! Game Over." << std::endl;
+        std::cout << "\nMar: ¡Te atraparon! Game Over." << std::endl;
         return 0;
     }
 
