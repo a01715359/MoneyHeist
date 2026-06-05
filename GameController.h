@@ -4,7 +4,6 @@
 #include<iostream>
 #include<string>
 #include "Thief.h"
-#include <sstream>
 
 class GameController{
     private:
@@ -19,7 +18,7 @@ class GameController{
         
         int getCurrentPhase();
         bool getCamaraAlert();
-        Thief getThief();
+        Thief& getThief();
         bool checkGameOver();
         bool nextPhase();
         void handleInteraction(int option);
@@ -38,7 +37,7 @@ bool GameController::getCamaraAlert(){
     return camaraAlert;
 }
 
-Thief GameController::getThief(){
+Thief& GameController::getThief(){
     return thief;
 }
 
@@ -68,9 +67,9 @@ void GameController::handleInteraction(int opcion){
 
 void GameController::handlePhase1(int opcion){
     if(opcion == 1){
-        Tool t = thief.getInventory()[0];
-        t.consumeUse(1);
-        thief.addSuspicion(t.getSuspicionCost());
+        Tool* t = thief.getInventory()[0];
+        t->consumeUse(1);
+        thief.addSuspicion(t->getSuspicionCost());
     } else if(opcion == 2){
         thief.takeDamage(20);
         thief.addSuspicion(40.0);
@@ -84,8 +83,8 @@ void GameController::handlePhase2(int opcion){
         thief.addSuspicion(15.0);
         camaraAlert = true;
     } else if(opcion == 3){
-        Tool t = thief.getInventory()[0];
-        t.consumeUse(1);
+        Tool* t = thief.getInventory()[0];
+        t->consumeUse(1);
     } else if(opcion == 4){
         thief.addSuspicion(35.0);
     }
@@ -97,12 +96,12 @@ void GameController::handlePhase3(int opcion){
         return;
     }
     if(opcion == 1){
-        Tool t = thief.getInventory()[0];
-        t.consumeUse(1);
+        Tool* t = thief.getInventory()[0];
+        t->consumeUse(1);
         thief.addSuspicion(10.0);
     } else if(opcion == 2){
-        Tool t = thief.getInventory()[0];
-        t.consumeUse(1);
+        Tool* t = thief.getInventory()[0];
+        t->consumeUse(1);
         thief.addSuspicion(20.0);
     } else if(opcion == 3){
         thief.addSuspicion(25.0);
@@ -128,23 +127,23 @@ std::string GameController::handlePhase4(){
 
 void GameController::handlePhase5(int opcion){
     if(opcion == 1){
-        Tool t = thief.getInventory()[0];
-        t.consumeUse(1);
+        Tool* t = thief.getInventory()[0];
+        t->consumeUse(1);
     } else if(opcion == 2){
         thief.takeDamage(30);
     } else if(opcion == 3){
-        Tool t = thief.getInventory()[0];
-        t.consumeUse(1);
+        Tool* t = thief.getInventory()[0];
+        t->consumeUse(1);
     } else if(opcion == 4){
-        Tool t = thief.getInventory()[0];
-        t.consumeUse(2);
+        Tool* t = thief.getInventory()[0];
+        t->consumeUse(2);
     } else if(opcion == 5){
-        Tool t = thief.getInventory()[0];
-        t.consumeUse(1);
+        Tool* t = thief.getInventory()[0];
+        t->consumeUse(1);
         thief.takeDamage(50);
     } else if(opcion == 6){
-        Tool t = thief.getInventory()[0];
-        t.consumeUse(1);
+        Tool* t = thief.getInventory()[0];
+        t->consumeUse(1);
         thief.takeDamage(20);
     } else if(opcion == 7){
         thief.takeDamage(50);
