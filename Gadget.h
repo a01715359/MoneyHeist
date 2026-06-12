@@ -1,38 +1,45 @@
 #ifndef GADGET_H
 #define GADGET_H
 
-#include <iostream>
-#include <string>
-#include <sstream>
-
 #include "Tool.h"
+#include <string>
 
-class Gadget: public Tool{
-    private:
-        bool isElectronic;
-    
-    public:
-        Gadget()
-            : Tool(), isElectronic(false) {};
-        Gadget(std::string n, int useTool, float suspicion, bool elec)
-            : Tool(n, useTool, suspicion), isElectronic(elec) {}
-        bool getIsElectronic();
-        std::string use() override;
+class Gadget : public Tool {
+private:
+    bool isElectronic;
+
+public:
+    Gadget()
+        : Tool(), isElectronic(false) {}
+
+    Gadget(const std::string& gadgetName,
+           int useTool,
+           float suspicion,
+           bool elec)
+        : Tool(gadgetName, useTool, suspicion),
+          isElectronic(elec) {}
+
+    bool getIsElectronic() const;
+
+    std::string use() override;
 };
 
-bool Gadget::getIsElectronic(){
+bool Gadget::getIsElectronic() const {
     return isElectronic;
 }
 
-std::string Gadget::use(){
-    consumeUse(1);
-    std::stringstream ss;
-    ss << uses;
+std::string Gadget::use() {
+    consumeUse();
+
     if (isElectronic) {
-        return name + ": incapacitado instantaneamente. Usos restantes: " + ss.str();
-    } else {
-        return name + ": sin rastro, sin testigos. Usos restantes: " + ss.str();
+        return getName() +
+               ": incapacitated instantly. Remaining uses: "
+               + std::to_string(getUses());
     }
+
+    return getName() +
+           ": no trace, no witnesses. Remaining uses: "
+           + std::to_string(getUses());
 }
 
 #endif
