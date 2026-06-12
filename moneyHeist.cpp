@@ -118,7 +118,12 @@ void handlePhase3(Thief& thief, int& currentPhase) {
     int optionPhase3;
 
     if (thief.getGoldenKey()) {
-        // ... (Mantén tu lógica aquí)
+        std::cout << thief.getName() << ": Well, thank God I got that key!" << std::endl;
+        std::cout << "* Opening safe... *" << std::endl;
+        std::cout << thief.getName() << ": Ha! Easy peasy. Anyway, let's continue, ";
+        std::cout << "because we still have that money waiting for us." << std::endl;
+        nextPhase(currentPhase);
+        return;
     }
 
     Tool* dagger = findTool("dagger", thief);
@@ -128,7 +133,13 @@ void handlePhase3(Thief& thief, int& currentPhase) {
     bool hasGun = (gun != nullptr && gun->hasUses());
 
     if (hasDagger || hasGun) {
-        // ... (Mantén tu lógica aquí)
+        std::cout << "Mar: The firewall is locking me out, ";
+        std::cout << thief.getName() << "." << std::endl;
+        std::cout << "If I try to open the safe from here, we might ";
+        std::cout << "lose our connection. " << std::endl;
+        std::cout << "Check your backpack... do you have anything that ";
+        std::cout << "can force metal open?\n" << std::endl;
+        std::cout << "=== Choose what to do ===" << std::endl;
     }
 }
 
@@ -146,7 +157,6 @@ void handlePhase4(Thief& thief, int& currentPhase) {
     nextPhase(currentPhase);
 }
 
-// CORRECCIÓN PUNTO 4: Ahora sí imprime en consola el resultado de use()
 void handlePhase5Part1(int optionPhase5Part1, Thief& thief) {
     std::cout << "\n=== FINAL PHASE: PART 1 ===" << std::endl;
     if (optionPhase5Part1 == 1) {
@@ -160,7 +170,6 @@ void handlePhase5Part1(int optionPhase5Part1, Thief& thief) {
     }
 }
 
-// CORRECCIÓN PUNTO 5: Integración del Polimorfismo con use()
 void handlePhase5Part2(Tool* toolUsed, Thief& thief) {
     std::cout << "\n=== FINAL PHASE: PART 2 ===" << std::endl;
 
@@ -182,15 +191,15 @@ void handlePhase5Part2(Tool* toolUsed, Thief& thief) {
     } else if (toolName == "silenced gun") {
         if (toolUsed->getUses() >= 2) {
             std::cout << toolUsed->use() << std::endl;
-            toolUsed->consumeUse(1); // El primer uso fue implícito en use(), consumimos el segundo disparo.
+            toolUsed->consumeUse(1);
             std::cout << "\n* One shot wounds him, the second takes him ";
             std::cout << "down before he can react. *" << std::endl;
-        } else {
-            std::cout << toolUsed->use() << std::endl;
-            std::cout << "\n* You wound him, but he has time to pull the ";
-            std::cout << "trigger before falling. *" << std::endl;
-            thief.setHp(30);
-        }
+    } else {
+        std::cout << toolUsed->use() << std::endl;
+        std::cout << "\n* You wound him, but he has time to pull the ";
+        std::cout << "trigger before falling. *" << std::endl;
+        thief.setHp(30);
+    }
     }
 }
 
@@ -357,6 +366,12 @@ int main() {
 
     handlePhase3(thief, currentPhase);
 
+    if (checkGameOver(currentPhase, thief)) {
+        std::cout << "\nMar: They got you, I'm out." << std::endl;
+        std::cout << "==== Game Over. WA WA WAAAAAA! ====" << std::endl;
+        return 0;
+    }
+
     std::cout << "\n=== PHASE 4: THE VAULT ===" << std::endl;
     handlePhase4(thief, currentPhase);
 
@@ -378,6 +393,13 @@ int main() {
     while (optionPhase5Part1 < 1 || optionPhase5Part1 > 3) {
         std::cout << "Invalid option, choose between 1 and 3\n> ";
         std::cin >> optionPhase5Part1;
+    }
+
+    if (optionPhase5Part1 == 1){
+        thief.setHp(20);
+        thief.addSuspicion(15.0);
+        std::cout << "\nHP: " << thief.getHp() << "/100" << std::endl;
+        std::cout << "Suspicion: " << thief.getSuspicion() << "%" << std::endl;
     }
 
     handlePhase5Part1(optionPhase5Part1, thief);
@@ -438,6 +460,12 @@ int main() {
     Tool* selectedTool = nullptr;
     if (choicePart2 == optPowder) selectedTool = powder;
     else if (choicePart2 == optGun)   selectedTool = gun;
+
+    if (checkGameOver(currentPhase, thief)) {
+        std::cout << "\nMar: They got you, I'm out." << std::endl;
+        std::cout << "==== Game Over. WA WA WAAAAAA! ====" << std::endl;
+        return 0;
+    }
 
     nextPhase(currentPhase);
 
